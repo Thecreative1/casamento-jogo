@@ -108,6 +108,27 @@
       cursor: pointer;
       font-family: 'Great Vibes', cursive;
     }
+      @media (max-width: 480px) {
+      .title-header {
+        font-size: 2rem;
+      }
+      .countdown {
+        font-size: 1.2rem;
+      }
+      .game-section {
+        padding: 1rem;
+      }
+      .game-section h1 {
+        font-size: 1.6rem;
+      }
+      .game-section p, .final-message, .game-result {
+        font-size: 1rem;
+      }
+      #restartButton {
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -117,11 +138,11 @@
     <h1>🎯 Guess Who!</h1>
     <p id="question">Who is the better cook?</p>
     <div>
-      <img src="flavio.jpg" alt="Flávio" onclick="checkAnswer('Flavio')">
-      <img src="karolina.jpg" alt="Karolina" onclick="checkAnswer('Karolina')">
-    </div>
-    <div class="game-result" id="gameResult"></div>
+  <img src="flavio.jpg" alt="Flávio" onclick="checkAnswer('Flavio')">
+  <img src="karolina.jpg" alt="Karolina" onclick="checkAnswer('Karolina')">
+</div>
     <div class="final-message" id="finalMessage"></div>
+<div class="game-result" id="gameResult"></div>
     <button id="restartButton">💖 Play Again, Lovebirds 💖</button>
   </section>
   <script>
