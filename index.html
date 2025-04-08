@@ -137,9 +137,15 @@
   <section class="game-section">
     <h1>🎯 Guess Who!</h1>
     <p id="question">Who is the better cook?</p>
-    <div>
-  <img src="flavio.jpg" alt="Flávio" onclick="checkAnswer('Flavio')">
-  <img src="karolina.jpg" alt="Karolina" onclick="checkAnswer('Karolina')">
+    <div style="display: flex; justify-content: center; gap: 2rem;">
+  <div style="position: relative;">
+    <img src="flavio.jpg" alt="Flávio" onclick="checkAnswer('Flavio')">
+    <div id="tickFlavio" style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); font-size: 1.5rem; display: none;">✅</div>
+  </div>
+  <div style="position: relative;">
+    <img src="karolina.jpg" alt="Karolina" onclick="checkAnswer('Karolina')">
+    <div id="tickKarolina" style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); font-size: 1.5rem; display: none;">✅</div>
+  </div>
 </div>
     <div class="final-message" id="finalMessage"></div>
 <div class="game-result" id="gameResult"></div>
@@ -194,13 +200,30 @@
       const correct = questions[current].a;
       if (!questionElem || !resultElem || !finalMessage) return;
       if (choice === correct) {
-        resultElem.textContent = 'Correct! ✅';
+        const tick = document.getElementById(`tick${choice}`);
+        if (tick) {
+          tick.innerText = '✅';
+          tick.style.display = 'block';
+        }
+        if (tick) tick.style.display = 'block';
         correctCount++;
       } else {
-        resultElem.textContent = `Oops! The correct answer was ${correct}. 😄`;
+        const wrong = document.getElementById(`tick${choice}`);
+        if (wrong) {
+          wrong.innerText = '❌';
+          wrong.style.display = 'block';
+        }
+        const right = document.getElementById(`tick${correct}`);
+        if (right) {
+          right.innerText = '✅';
+          right.style.display = 'block';
+        }
       }
       current++;
-      setTimeout(() => loadQuestion(current), 2000);
+      setTimeout(() => {
+        document.getElementById('tickFlavio').style.display = 'none'; document.getElementById('tickKarolina').style.display = 'none'; document.getElementById('tickFlavio').innerText = '✅'; document.getElementById('tickKarolina').innerText = '✅';
+        loadQuestion(current);
+      }, 2000);
     }
 
     window.addEventListener('DOMContentLoaded', () => {
