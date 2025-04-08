@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guess Who! - Flávio & Karolina</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fff0f5;
+      background-size: cover;
+      color: #5a2a60;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .title-header {
+      font-family: 'Great Vibes', cursive;
+      font-size: 3rem;
+      margin-top: 2rem;
+      color: #b76e79;
+      text-shadow: 1px 1px 2px #fff;
+    }
+    .title-header span {
+      font-size: 2rem;
+    }
+    .game-section {
+      padding: 3rem;
+      background-color: #ffffffee;
+      border-radius: 20px;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
+      max-width: 900px;
+    }
+    .game-section h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #a0522d;
+    }
+    .game-section p {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .game-section img {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      margin: 2rem;
+      cursor: pointer;
+      transition: transform 0.2s;
+      border: 5px solid gold;
+      box-shadow: 0 0 10px gold;
+    }
+    .game-section img:hover {
+      transform: scale(1.1);
+    }
+    .game-result {
+      font-size: 1.8rem;
+      margin-top: 2rem;
+      font-weight: bold;
+      color: #d2691e;
+    }
+    .final-message {
+      font-size: 1.6rem;
+      margin-top: 3rem;
+      color: #5a2a60;
+      font-weight: bold;
+    }
+    .countdown {
+      font-size: 2rem;
+      margin: 2rem 0;
+      color: #c71585;
+      background-color: #ffffffaa;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+    }
+    .audio-toggle {
+      margin-top: 1rem;
+      font-size: 1rem;
+      background: #f9e4f4;
+      border: 1px solid #c71585;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      color: #5a2a60;
+    }
+  </style>
+</head>
+<body>
+  <div class="title-header">💍 Flávio & Karolina</div>
+  <div class="countdown" id="countdown"></div>
+
+  <section class="game-section">
+    <h1>🎯 Guess Who!</h1>
+    <p id="question">Who is the better cook?</p>
+    <div>
+      <img src="flavio.jpg" alt="Flávio" onclick="checkAnswer('Flavio')">
+      <img src="karolina.jpg" alt="Karolina" onclick="checkAnswer('Karolina')">
+    </div>
+    <div class="game-result" id="gameResult"></div>
+    <div class="final-message" id="finalMessage"></div>
+
+    <button id="restartButton" style="display:none; margin-top: 2rem; padding: 0.8rem 2rem; font-size: 1.2rem; background-color: #ffd700; color: #5a2a60; border: 2px solid #b76e79; border-radius: 12px; cursor: pointer; font-family: 'Great Vibes', cursive;">💖 Play Again, Lovebirds 💖</button>
+  </section>
+
+  <script>
+    function toggleMusic() {
+      const audio = document.getElementById('bgMusic');
+      if (audio.paused) {
+        audio.play();
+      } else {
+        audio.pause();
+      }
+    }
+
+    const questions = [
+      { q: "Who is the better cook?", a: "Flavio" },
+      { q: "Who falls asleep first on the couch?", a: "Karolina" },
+      { q: "Who snores more?", a: "Flavio" },
+      { q: "Who wakes up earlier?", a: "Karolina" },
+      { q: "Who is more organized?", a: "Karolina" },
+      { q: "Who tells the worst jokes?", a: "Flavio" },
+      { q: "Who is always late?", a: "Flavio" },
+      { q: "Who chooses the movie?", a: "Karolina" },
+      { q: "Who eats more snacks?", a: "Karolina" },
+      { q: "Who is better at directions?", a: "Flavio" },
+      { q: "Who is more likely to sing in the shower?", a: "Flavio" }
+    ];
+
+    let current = 0;
+    let correctCount = 0;
+    let questionElem, resultElem, finalMessage;
+
+    function loadQuestion(index) {
+      if (index < questions.length) {
+        questionElem.textContent = questions[index].q;
+        resultElem.textContent = '';
+      } else {
+        questionElem.style.display = 'none';
+        document.querySelectorAll('img').forEach(img => img.style.display = 'none');
+        resultElem.textContent = '';
+        if (correctCount >= 8) {
+          finalMessage.textContent = `You got ${correctCount} out of ${questions.length} right! 🎉
+The prize is: knowing us better! If you didn’t know... now you do! 😄`;
+          document.getElementById('restartButton').style.display = 'inline-block';
+          confetti();
+        } else {
+          finalMessage.textContent = `Only ${correctCount}? 😬 You clearly need to get to know us better... Try again or you'll be in trouble! 😅`;
+          current = 0;
+          correctCount = 0;
+          setTimeout(() => {
+            finalMessage.textContent = '';
+            document.getElementById('restartButton').style.display = 'none';
+            questionElem.style.display = 'block';
+            document.querySelectorAll('img').forEach(img => img.style.display = 'inline-block');
+            loadQuestion(current);
+          }, 4000);
+        }
+      }
+    }
+
+    function checkAnswer(choice) {
+      const correct = questions[current].a;
+      if (!questionElem || !resultElem || !finalMessage) return;
+      if (choice === correct) {
+        resultElem.textContent = 'Correct! ✅';
+        correctCount++;
+      } else {
+        resultElem.textContent = `Oops! The correct answer was ${correct}. 😄`;
+      }
+      current++;
+      setTimeout(() => loadQuestion(current), 2500);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('restartButton').addEventListener('click', () => {
+        current = 0;
+        correctCount = 0;
+        finalMessage.textContent = '';
+        document.querySelectorAll('img').forEach(img => img.style.display = 'inline-block');
+        questionElem.style.display = 'block';
+        document.getElementById('restartButton').style.display = 'none';
+        loadQuestion(current);
+      });
+      const weddingDate = new Date("2025-09-27T13:00:00Z").getTime();
+      const countdown = document.getElementById("countdown");
+
+      setInterval(() => {
+        const now = new Date().getTime();
+        const distance = weddingDate - now;
+
+        if (distance < 0) {
+          countdown.textContent = "The big day is here! 💍";
+          return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        countdown.textContent = days + "d " + hours + "h " + minutes + "m " + seconds + "s";
+      }, 1000);
+
+      questionElem = document.getElementById('question');
+      resultElem = document.getElementById('gameResult');
+      finalMessage = document.getElementById('finalMessage');
+
+      loadQuestion(current);
+    });
+
+    function confetti() {
+      const duration = 3 * 1000;
+      const animationEnd = Date.now() + duration;
+      const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 1000 };
+
+      function randomInRange(min, max) {
+        return Math.random() * (max - min) + min;
+      }
+
+      const interval = setInterval(() => {
+        const timeLeft = animationEnd - Date.now();
+        if (timeLeft <= 0) return clearInterval(interval);
+
+        const particleCount = 50 * (timeLeft / duration);
+        confettiLib({
+          particleCount,
+          origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+          ...defaults
+        });
+        confettiLib({
+          particleCount,
+          origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+          ...defaults
+        });
+      }, 250);
+    }
+
+    const confettiScript = document.createElement('script');
+    confettiScript.src = 'https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js';
+    document.head.appendChild(confettiScript);
+  </script>
+</body>
+</html>
