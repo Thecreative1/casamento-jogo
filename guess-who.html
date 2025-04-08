@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guess Who! - Flávio & Karolina</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fff0f5;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .title-header {
+      font-family: 'Great Vibes', cursive;
+      font-size: 3rem;
+      margin-top: 2rem;
+      color: #c71585;
+    }
+    .title-header span {
+      font-size: 2rem;
+    }
+    .game-section {
+      padding: 3rem;
+    }
+    .game-section h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    .game-section p {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .game-section img {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      margin: 2rem;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .game-section img:hover {
+      transform: scale(1.1);
+    }
+    .game-result {
+      font-size: 1.8rem;
+      margin-top: 2rem;
+      font-weight: bold;
+      color: #b22222;
+    }
+    .countdown {
+      font-size: 2rem;
+      margin: 2rem 0;
+      color: #8b0000;
+    }
+  </style>
+</head>
+<body>
+  <div class="title-header">💍 Flávio & Karolina</div>
+  <div class="countdown" id="countdown"></div>
+
+  <section class="game-section">
+    <h1>🎯 Guess Who!</h1>
+    <p id="question">Who is the better cook?</p>
+    <div>
+      <img src="flavio.jpg" alt="Flávio" onclick="checkAnswer('Flavio')">
+      <img src="karolina.jpg" alt="Karolina" onclick="checkAnswer('Karolina')">
+    </div>
+    <div class="game-result" id="gameResult"></div>
+  </section>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const weddingDate = new Date("2025-09-27T00:00:00").getTime();
+      const countdown = document.getElementById("countdown");
+
+      const interval = setInterval(() => {
+        const now = new Date().getTime();
+        const distance = weddingDate - now;
+
+        if (distance < 0) {
+          clearInterval(interval);
+          countdown.textContent = "The big day is here! 💍";
+          return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        countdown.textContent = days + "d " + hours + "h " + minutes + "m " + seconds + "s";
+      }, 1000);
+
+      const questions = [
+        { q: "Who is the better cook?", a: "Karolina" },
+        { q: "Who falls asleep first on the couch?", a: "Flavio" },
+        { q: "Who snores more?", a: "Flavio" },
+        { q: "Who wakes up earlier?", a: "Karolina" },
+        { q: "Who is more organized?", a: "Karolina" },
+        { q: "Who tells the worst jokes?", a: "Flavio" },
+        { q: "Who is always late?", a: "Flavio" },
+        { q: "Who chooses the movie?", a: "Karolina" },
+        { q: "Who eats more snacks?", a: "Flavio" },
+        { q: "Who is better at directions?", a: "Karolina" },
+        { q: "Who is more likely to sing in the shower?", a: "Flavio" }
+      ];
+
+      let current = 0;
+
+      const questionElem = document.getElementById('question');
+      const resultElem = document.getElementById('gameResult');
+
+      function loadQuestion(index) {
+        questionElem.textContent = questions[index].q;
+        resultElem.textContent = '';
+      }
+
+      window.checkAnswer = function(choice) {
+        const correct = questions[current].a;
+        if (choice === correct) {
+          resultElem.textContent = 'Correct! ✅';
+        } else {
+          resultElem.textContent = `Oops! The correct answer was ${correct}. 😄`;
+        }
+        current = (current + 1) % questions.length;
+        setTimeout(() => loadQuestion(current), 2500);
+      }
+
+      loadQuestion(current);
+    });
+  </script>
+</body>
+</html>
