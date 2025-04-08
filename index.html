@@ -5,7 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Guess Who! - Flávio & Karolina</title>
   <style>
+    @media (max-width: 600px) {
+      .game-section {
+        padding: 1.5rem;
+      }
+      .game-section h1 {
+        font-size: 2rem;
+      }
+      .game-section p {
+        font-size: 1.2rem;
+      }
+      .game-section img {
+        width: 45vw;
+        max-width: 120px;
+        margin: 1rem;
+      }
+      .countdown {
+        font-size: 1.2rem;
+        margin: 1rem;
+      }
+      .title-header {
+        font-size: 2rem;
+      }
+    }
+
     @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+
     body {
       font-family: Arial, sans-serif;
       background-color: #fff0f5;
@@ -16,7 +41,7 @@
       text-align: center;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
       min-height: 100vh;
       width: 100%;
@@ -82,12 +107,23 @@
       padding: 0.5rem 1rem;
       border-radius: 10px;
     }
+    .audio-toggle {
+      margin-top: 1rem;
+      font-size: 1rem;
+      background: #f9e4f4;
+      border: 1px solid #c71585;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      color: #5a2a60;
+    }
   </style>
 </head>
 <body>
   <div class="title-header">💍 Flávio & Karolina</div>
   <div class="countdown" id="countdown"></div>
-  <section class="game-section">
+
+  <section class="game-section" style="max-width: 100%; width: 100%; box-sizing: border-box;">
     <h1>🎯 Guess Who!</h1>
     <p id="question">Who is the better cook?</p>
     <div>
@@ -96,9 +132,20 @@
     </div>
     <div class="game-result" id="gameResult"></div>
     <div class="final-message" id="finalMessage"></div>
+
     <button id="restartButton" style="display:none; margin-top: 2rem; padding: 0.8rem 2rem; font-size: 1.2rem; background-color: #ffd700; color: #5a2a60; border: 2px solid #b76e79; border-radius: 12px; cursor: pointer; font-family: 'Great Vibes', cursive;">💖 Play Again, Lovebirds 💖</button>
   </section>
+
   <script>
+    function toggleMusic() {
+      const audio = document.getElementById('bgMusic');
+      if (audio.paused) {
+        audio.play();
+      } else {
+        audio.pause();
+      }
+    }
+
     const questions = [
       { q: "Who is the better cook?", a: "Flavio" },
       { q: "Who falls asleep first on the couch?", a: "Karolina" },
@@ -112,8 +159,11 @@
       { q: "Who is better at directions?", a: "Flavio" },
       { q: "Who is more likely to sing in the shower?", a: "Flavio" }
     ];
-    let current = 0, correctCount = 0;
+
+    let current = 0;
+    let correctCount = 0;
     let questionElem, resultElem, finalMessage;
+
     function loadQuestion(index) {
       if (index < questions.length) {
         questionElem.textContent = questions[index].q;
@@ -141,6 +191,7 @@ The prize is: knowing us better! If you didn’t know... now you do! 😄`;
         }
       }
     }
+
     function checkAnswer(choice) {
       const correct = questions[current].a;
       if (!questionElem || !resultElem || !finalMessage) return;
@@ -153,6 +204,7 @@ The prize is: knowing us better! If you didn’t know... now you do! 😄`;
       current++;
       setTimeout(() => loadQuestion(current), 2500);
     }
+
     window.addEventListener('DOMContentLoaded', () => {
       document.getElementById('restartButton').addEventListener('click', () => {
         current = 0;
@@ -165,50 +217,63 @@ The prize is: knowing us better! If you didn’t know... now you do! 😄`;
       });
       const weddingDate = new Date("2025-09-27T13:00:00Z").getTime();
       const countdown = document.getElementById("countdown");
+
       setInterval(() => {
         const now = new Date().getTime();
         const distance = weddingDate - now;
+
         if (distance < 0) {
           countdown.textContent = "The big day is here! 💍";
           return;
         }
+
         const days = Math.floor(distance / (1000 * 60 * 60 * 24));
         const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
         countdown.textContent = days + "d " + hours + "h " + minutes + "m " + seconds + "s";
       }, 1000);
+
       questionElem = document.getElementById('question');
       resultElem = document.getElementById('gameResult');
       finalMessage = document.getElementById('finalMessage');
+
       loadQuestion(current);
     });
-    function confetti() {
-      const duration = 3 * 1000;
-      const animationEnd = Date.now() + duration;
-      const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 1000 };
-      function randomInRange(min, max) {
-        return Math.random() * (max - min) + min;
-      }
-      const interval = setInterval(() => {
-        const timeLeft = animationEnd - Date.now();
-        if (timeLeft <= 0) return clearInterval(interval);
-        const particleCount = 50 * (timeLeft / duration);
-        confettiLib({
-          particleCount,
-          origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
-          ...defaults
-        });
-        confettiLib({
-          particleCount,
-          origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
-          ...defaults
-        });
-      }, 250);
+  function confetti() {
+  const duration = 3 * 1000;
+  const animationEnd = Date.now() + duration;
+  const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 1000 };
+
+  function randomInRange(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  const interval = setInterval(() => {
+    const timeLeft = animationEnd - Date.now();
+
+    if (timeLeft <= 0) {
+      return clearInterval(interval);
     }
-    const confettiScript = document.createElement('script');
-    confettiScript.src = 'https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js';
-    document.head.appendChild(confettiScript);
-  </script>
+
+    const particleCount = 50 * (timeLeft / duration);
+    confettiLib({
+      particleCount,
+      origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+      ...defaults
+    });
+    confettiLib({
+      particleCount,
+      origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+      ...defaults
+    });
+  }, 250);
+}
+
+const confettiScript = document.createElement('script');
+confettiScript.src = 'https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js';
+document.head.appendChild(confettiScript);
+</script>
 </body>
 </html>
