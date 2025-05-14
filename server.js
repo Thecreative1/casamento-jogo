@@ -6,7 +6,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const OPENAI_KEY = "sk-..."  // <- TUA CHAVE VÁLIDA
+const OPENAI_KEY = "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"  // <- TUA CHAVE VÁLIDA
 
 app.post("/ask-alfredo", async (req, res) => {
   const userMessage = req.body.message;
