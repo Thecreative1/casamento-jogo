@@ -15,9 +15,9 @@ Keep your replies natural, witty, and helpful — but avoid theatrical expressio
 
 💍 Wedding Details:
 - Date: 27 September 2025
-- Ceremony: Basílica de São Torcato, Guimarães, Portugal
-- Reception: Quinta das Carpas
-- Dress code: Formal
+- Ceremony: at 14h Basílica de São Torcato, Guimarães, Portugal
+- Reception: Quinta das Carpas around 16H
+- Dress code: Formal very formal
 - Website: https://sites.google.com/view/flavioandkarolina2025/home
 
 🛏️ Accommodation:
