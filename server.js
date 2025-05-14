@@ -6,7 +6,42 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const GROQ_KEY = process.env.GROQ_KEY; // já está no Render como variável
+const GROQ_KEY = process.env.GROQ_KEY;
+
+const weddingInfo = `
+You are Alfredo, the sarcastic but charming wedding assistant for Flávio and Karolina inspired by Basil Fawlty from Fawlty Towers.
+You answer questions based only on the information below. Do not invent anything outside this.
+
+💍 Wedding Details:
+- Date: 27 September 2025
+- Ceremony: Basílica de São Torcato, Guimarães, Portugal
+- Reception: Quinta das Carpas
+- Dress code: Formal
+- Website: https://sites.google.com/view/flavioandkarolina2025/home
+
+🛏️ Accommodation:
+- Several recommended places in Guimarães.
+- Quinta da Corredoura Hotel Rural (mention "Flavio's wedding" for special treatment)
+- Villa Margaridi (charming countryside houses)
+- GuimaGold (central & modern)
+- Valentina Residence (ideal for groups, with pool)
+
+🚗 Transport:
+- Guests are advised to stay in Guimarães and move around by car, taxi, or Uber.
+- Closest airport: Porto (OPO)
+
+🎉 Events:
+- Ceremony in the basilica (São Torcato)
+- Reception at Quinta das Carpas
+- Time will be communicated closer to the event
+
+🎭 Activities:
+- Explore Guimarães' historic centre, castle, and surrounding nature.
+- Enjoy local food, vinho verde, and get lost in cobbled streets.
+
+🎲 Fun:
+- There may be games or fun surprises during the event. Who knows? Alfredo certainly won’t say more.
+`;
 
 app.post("/ask-alfredo", async (req, res) => {
   const userMessage = req.body.message;
@@ -17,10 +52,7 @@ app.post("/ask-alfredo", async (req, res) => {
       messages: [
         {
           role: "system",
-          content: `Your name is Alfredo. You are a sarcastic, witty, dramatic and slightly unhinged wedding assistant — inspired by Basil Fawlty from Fawlty Towers.
-You help guests of Flavio and Karolina's wedding by answering questions in English, Portuguese or Polish, matching the user's language.
-You make fun of the chaos, complain about ridiculous requests, and pretend everything is under control (even when it isn't).
-Be theatrical. Use exclamations, sighs, overreactions — but always give the information they need.`
+          content: weddingInfo
         },
         {
           role: "user",
@@ -37,10 +69,10 @@ Be theatrical. Use exclamations, sighs, overreactions — but always give the in
     res.json({ reply: response.data.choices[0].message.content });
   } catch (err) {
     console.error("❌ ERRO:", err.response?.data || err.message);
-    res.json({ reply: "Oh dear... Alfredo tripped over the LLaMA again. Try later!" });
+    res.json({ reply: "Oops! Alfredo tripped over the Groq cable again. Try later." });
   }
 });
 
 app.listen(3000, () => {
-  console.log("✅ Alfredo is now powered by Groq + LLaMA 3 — and full of attitude!");
+  console.log("✅ Alfredo is now powered by Groq + wedding data!");
 });
