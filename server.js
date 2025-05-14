@@ -6,7 +6,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const OPENAI_KEY = "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";
+const OPENAI_KEY = process.env.OPENAI_KEY;
 
 app.post("/ask-alfredo", async (req, res) => {
   const userMessage = req.body.message;
