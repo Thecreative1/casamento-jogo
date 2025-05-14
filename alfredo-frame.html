@@ -2,29 +2,67 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Falar com o Alfredo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Talk to Alfredo</title>
   <style>
-    html, body {
+    body {
       margin: 0;
       padding: 0;
-      height: 100%;
       background-color: #f4e7d0;
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
     }
 
-    iframe {
+    .alfredo-container {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .alfredo-img {
       width: 100%;
-      height: 100vh;
-      border: none;
-      display: block;
+      max-width: 240px;
+      height: auto;
+      cursor: pointer;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s ease;
+    }
+
+    .alfredo-img:hover {
+      transform: scale(1.03);
+    }
+
+    .alfredo-text {
+      font-size: 1.2rem;
+      margin-top: 12px;
+      color: #3d2d0f;
+    }
+
+    @media screen and (max-width: 600px) {
+      .alfredo-text {
+        font-size: 1rem;
+      }
+
+      .alfredo-img {
+        max-width: 180px;
+      }
     }
   </style>
 </head>
 <body>
-  <iframe 
-    src="https://thecreative1.github.io/casamento-jogo/Alfredo.html" 
-    title="Alfredo" 
-    allow="clipboard-write"
-    loading="lazy">
-  </iframe>
+  <div class="alfredo-container">
+    <a href="https://thecreative1.github.io/casamento-jogo/Alfredo.html" target="_blank">
+      <img
+        src="https://raw.githubusercontent.com/Thecreative1/casamento-jogo/main/assets/alfredo.png"
+        alt="Speak to Alfredo"
+        class="alfredo-img"
+      />
+    </a>
+    <div class="alfredo-text">Speak to Alfredo</div>
+  </div>
 </body>
 </html>
