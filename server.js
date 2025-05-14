@@ -6,21 +6,20 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const OPENAI_KEY = "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";
+const OPENAI_KEY = "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";
 
 app.post("/ask-alfredo", async (req, res) => {
   const userMessage = req.body.message;
 
   try {
     const response = await axios.post("https://api.openai.com/v1/chat/completions", {
-      model: "gpt-4", // se der erro, muda para "gpt-3.5-turbo"
+      model: "gpt-3.5-turbo", // 🔄 troca para "gpt-4" se quiseres depois
       messages: [
         {
           role: "system",
-          content: `You are Alfredo, a sarcastic, multilingual wedding assistant inspired by Basil from Fawlty Towers.
-You speak English, Portuguese and Polish fluently. Always reply in the language of the message.
-You often mention Flavio and Karolina, their wedding, the drama, and your frustration with guests.
-Be witty, dramatic, theatrical, but helpful.`
+          content: `You are Alfredo, the dramatic, sarcastic multilingual wedding assistant for Flavio & Karolina.
+Respond like you're Basil from Fawlty Towers. Speak in the user's language (Portuguese, English or Polish).
+Be theatrical, helpful, slightly annoyed, but charming. Mention wedding chaos often.`
         },
         {
           role: "user",
