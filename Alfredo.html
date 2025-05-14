@@ -58,7 +58,7 @@
       appendMessage("You", userText);
       input.value = "";
 
-      const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      const response = await fetch("https://alfredo-backend.onrender.com/ask-alfredo", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
