@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>MTR RetroEscavator - Corrida de Terraplanagem</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="game-shell">
+    <h1><span class="brand-mark">MTR</span> RETROESCAVATOR</h1>
+    <p class="subtitle">Edicao inspirada na Motivo Rustico</p>
+    <p class="hint">Mover: A/D ou setas | Saltar: W/Espaco/Seta Cima | Reiniciar: R | Som: M</p>
+    <canvas id="game" width="960" height="540" aria-label="Jogo de plataformas 2D"></canvas>
+    <div class="hud">
+      <span id="coins">Ovos: 0</span>
+      <span id="lives">Vidas: 3</span>
+      <span id="message"></span>
+    </div>
+    <div class="touch-controls" aria-hidden="true">
+      <div class="touch-row">
+        <button id="leftBtn" class="ctrl">◀</button>
+        <button id="jumpBtn" class="ctrl jump">▲</button>
+        <button id="rightBtn" class="ctrl">▶</button>
+      </div>
+      <div class="touch-row touch-actions">
+        <button id="restartBtn" class="mini">Reiniciar</button>
+        <button id="muteBtn" class="mini">Som</button>
+        <button id="fsBtn" class="mini">Tela cheia</button>
+      </div>
+    </div>
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>
